@@ -1,0 +1,48 @@
+#задание 1
+import re
+import csv
+
+file = 'task1-en.txt'
+with open(file, 'r', encoding='utf-8') as file:
+    text = file.read()
+
+# все слова от 3 до 5 букв
+pattern1 = r'\b\w{3,5}\b'
+words = re.findall(pattern1, text)
+
+# все числа больше 3 знаков
+pattern2 = r'\b\d{4,}\b'
+numbers = re.findall(pattern2, text)
+
+print("Слова от 3 до 5 букв:")
+print(words)
+
+print("Числа больше 3 знаков:")
+print(numbers)
+
+
+#задание 2
+with open('task2.html', 'r', encoding='utf-8') as file:
+    text = file.read()
+pattern1 = r'<s*([a-zA-Z1-6][a-zA-Z1-6]*)(s*[^>]*)?>'  # Регулярное выражение для открывающих тегов
+tags = re.findall(pattern1, text)
+
+unical_tags = set(tags)
+print("Уникальные открывающие теги:")
+print(unical_tags)
+
+#задание 3
+with open("task3.txt", "r", encoding="utf-8") as file:
+    data = file.read()
+
+id = re.findall(r"\b\d+\b", data)
+name = re.findall(r"\b[A-Z][a-z]+(?:\s[A-Z][a-z]+)*\b", data)
+email = re.findall(r"[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,}", data)
+date = re.findall(r"\b\d{4}-\d{2}-\d{2}\b", data)
+site = re.findall(r"https?://(?:www\.)?\S+", data)
+
+records = zip(id, name, email, date, site)
+with open("result.csv", "w", encoding="utf-8", newline="") as csvfile: # заполнение таблицы
+    writer = csv.writer(csvfile)
+    writer.writerow(["ID", "Name", "Email", "Date", "Website"])
+    writer.writerows(records)
